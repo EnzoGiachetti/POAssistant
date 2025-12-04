@@ -11,75 +11,29 @@
     
     <style>
         /* Custom Scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #0f172a; 
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #334155; 
-            border-radius: 4px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #475569; 
-        }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0f172a; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #475569; }
 
         /* Animações */
-        .fade-in {
-            animation: fadeIn 0.5s ease-in-out forwards;
-        }
-        
-        .fade-out {
-            animation: fadeOut 0.3s ease-in-out forwards;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes fadeOut {
-            from { opacity: 1; transform: translateY(0); }
-            to { opacity: 0; transform: translateY(-10px); display: none; }
-        }
+        .fade-in { animation: fadeIn 0.5s ease-in-out forwards; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
         /* Estilo base escuro */
-        body {
-            background-color: #0B0E14;
-            color: #e2e8f0;
-        }
+        body { background-color: #0B0E14; color: #e2e8f0; }
+        .card-bg { background-color: #151923; }
+        .input-bg { background-color: #0B0E14; }
         
-        .card-bg {
-            background-color: #151923;
-        }
-        
-        .input-bg {
-            background-color: #0B0E14;
-        }
-        
-        .chat-bubble-user {
-            background-color: #1e3a8a; /* Blue 900 */
-            color: #e2e8f0;
-            border-radius: 12px 12px 0 12px;
-        }
-        
-        .chat-bubble-ai {
-            background-color: #334155; /* Slate 700 */
-            color: #e2e8f0;
-            border-radius: 12px 12px 12px 0;
-        }
+        /* Chat Bubbles */
+        .chat-bubble-user { background-color: #1e3a8a; color: #e2e8f0; border-radius: 12px 12px 0 12px; }
+        .chat-bubble-ai { background-color: #334155; color: #e2e8f0; border-radius: 12px 12px 12px 0; }
 
-        .step-active {
-            color: #3b82f6;
-            border-color: #3b82f6;
-        }
-        
-        .step-inactive {
-            color: #475569;
-            border-color: #334155;
-        }
+        /* Stepper */
+        .step-active { color: #3b82f6; border-color: #3b82f6; }
+        .step-inactive { color: #475569; border-color: #334155; }
 
+        /* Gherkin Syntax Highlighting */
         .gherkin-keyword { color: #c084fc; font-weight: bold; } /* Purple */
         .gherkin-string { color: #fbbf24; } /* Amber */
         .gherkin-variable { color: #60a5fa; font-weight: bold; } /* Blue */
@@ -95,30 +49,26 @@
             </div>
             <div>
                 <h1 class="font-bold text-gray-100 text-sm leading-tight">Story-4D</h1>
-                <p class="text-xs text-gray-400">PO Coach - Histórias de Usuário Guiadas por IA</p>
+                <p class="text-xs text-gray-400">Powered by Gemini AI</p>
             </div>
         </div>
 
         <!-- Stepper Navigation -->
         <div class="flex items-center gap-4 text-sm font-medium">
             <div id="step-1-indicator" class="flex items-center gap-2 pb-1 border-b-2 step-active transition-all cursor-pointer" onclick="navigateTo(1)">
-                <span class="w-5 h-5 rounded-full border flex items-center justify-center text-xs">1</span>
-                Definição
+                <span class="w-5 h-5 rounded-full border flex items-center justify-center text-xs">1</span> Definição
             </div>
             <div class="w-8 h-px bg-gray-700"></div>
             <div id="step-2-indicator" class="flex items-center gap-2 pb-1 border-b-2 border-transparent step-inactive transition-all cursor-pointer" onclick="navigateTo(2)">
-                <span class="w-5 h-5 rounded-full border border-gray-600 flex items-center justify-center text-xs">2</span>
-                Regras
+                <span class="w-5 h-5 rounded-full border border-gray-600 flex items-center justify-center text-xs">2</span> Regras
             </div>
             <div class="w-8 h-px bg-gray-700"></div>
             <div id="step-3-indicator" class="flex items-center gap-2 pb-1 border-b-2 border-transparent step-inactive transition-all cursor-pointer" onclick="navigateTo(3)">
-                <span class="w-5 h-5 rounded-full border border-gray-600 flex items-center justify-center text-xs">3</span>
-                Docs
+                <span class="w-5 h-5 rounded-full border border-gray-600 flex items-center justify-center text-xs">3</span> Docs
             </div>
             <div class="w-8 h-px bg-gray-700"></div>
-            <div id="step-4-indicator" class="flex items-center gap-2 pb-1 border-b-2 border-transparent step-inactive transition-all">
-                <span class="w-5 h-5 rounded-full border border-gray-600 flex items-center justify-center text-xs">4</span>
-                Validação
+            <div id="step-4-indicator" class="flex items-center gap-2 pb-1 border-b-2 border-transparent step-inactive transition-all cursor-pointer" onclick="navigateTo(4)">
+                <span class="w-5 h-5 rounded-full border border-gray-600 flex items-center justify-center text-xs">4</span> Validação
             </div>
         </div>
         
@@ -128,7 +78,13 @@
     <!-- Main Content Area -->
     <div class="flex flex-1 overflow-hidden relative">
         
-        <!-- ========================= VIEW 1: DEFINIÇÃO (UPDATED) ========================= -->
+        <!-- API STATUS CHECKER -->
+        <div id="api-error-banner" class="hidden absolute top-4 left-1/2 transform -translate-x-1/2 bg-red-600 text-white px-4 py-2 rounded shadow-lg z-50 text-sm font-bold flex items-center gap-2">
+            <i data-lucide="alert-triangle" class="w-4 h-4"></i>
+            Erro: Backend Python não detectado em localhost:5000
+        </div>
+
+        <!-- ========================= VIEW 1: DEFINIÇÃO ========================= -->
         <div id="view-definition" class="flex flex-1 w-full h-full absolute inset-0 transition-opacity duration-500 z-10 bg-[#0B0E14]">
             <main class="flex-1 overflow-y-auto p-8 lg:p-12">
                 <div class="max-w-3xl mx-auto">
@@ -147,17 +103,17 @@
                         </div>
                         <div class="space-y-2">
                             <label class="block text-sm font-semibold text-gray-200">1.1 Quem é o usuário? (Persona)</label>
-                            <textarea id="input-user" rows="2" class="w-full input-bg border border-gray-700 rounded p-3 text-sm text-gray-300 focus:ring-2 focus:ring-blue-600 outline-none resize-none" placeholder="Ex: Gerente de Vendas, Cliente Final... (Opcional - IA infere se vazio)"></textarea>
+                            <textarea id="input-user" rows="2" class="w-full input-bg border border-gray-700 rounded p-3 text-sm text-gray-300 focus:ring-2 focus:ring-blue-600 outline-none resize-none" placeholder="Ex: Gerente de Vendas, Cliente Final..."></textarea>
                         </div>
                         <div class="space-y-2">
                             <label class="block text-sm font-semibold text-gray-200">1.2 Qual é a ação principal?</label>
-                            <textarea id="input-action" rows="2" class="w-full input-bg border border-gray-700 rounded p-3 text-sm text-gray-300 focus:ring-2 focus:ring-blue-600 outline-none resize-none" placeholder="Ex: Filtrar produtos... (Opcional - IA infere se vazio)"></textarea>
+                            <textarea id="input-action" rows="2" class="w-full input-bg border border-gray-700 rounded p-3 text-sm text-gray-300 focus:ring-2 focus:ring-blue-600 outline-none resize-none" placeholder="Ex: Filtrar produtos, Exportar relatórios..."></textarea>
                         </div>
                         <div class="space-y-2">
                             <label class="block text-sm font-semibold text-gray-200">1.3 Qual é o benefício/valor?</label>
-                            <textarea id="input-benefit" rows="2" class="w-full input-bg border border-gray-700 rounded p-3 text-sm text-gray-300 focus:ring-2 focus:ring-blue-600 outline-none resize-none" placeholder="Ex: Economizar tempo... (Opcional - IA infere se vazio)"></textarea>
+                            <textarea id="input-benefit" rows="2" class="w-full input-bg border border-gray-700 rounded p-3 text-sm text-gray-300 focus:ring-2 focus:ring-blue-600 outline-none resize-none" placeholder="Ex: Economizar tempo, Tomar decisões mais rápidas..."></textarea>
                         </div>
-                        <button onclick="generateStory()" id="btn-generate" class="w-full bg-blue-700 hover:bg-blue-600 text-white font-medium py-3 px-4 rounded flex items-center justify-center gap-2 mt-4 shadow-lg shadow-blue-900/20">
+                        <button onclick="generateStory()" id="btn-generate" class="w-full bg-blue-700 hover:bg-blue-600 text-white font-medium py-3 px-4 rounded flex items-center justify-center gap-2 mt-4 shadow-lg shadow-blue-900/20 group">
                             <i data-lucide="sparkles" class="w-4 h-4"></i> <span>Gerar Rascunho com IA</span>
                         </button>
                     </div>
@@ -171,33 +127,19 @@
                     <div class="bg-gray-800/50 rounded-full p-4 inline-block mb-3">
                         <i data-lucide="loader-2" class="w-8 h-8 text-blue-500 animate-spin"></i>
                     </div>
-                    <p class="text-gray-300 font-medium animate-pulse">Escrevendo história...</p>
-                    <p class="text-xs text-gray-500 mt-1">A IA está estruturando o formato.</p>
+                    <p class="text-gray-300 font-medium animate-pulse">Consultando a IA...</p>
+                    <p class="text-xs text-gray-500 mt-1">Refinando verbos e benefícios.</p>
                 </div>
 
-                <!-- Results Step 1 -->
                 <div id="results-container-1" class="flex-1 p-6 overflow-y-auto space-y-8 hidden">
-                    <div class="flex items-center gap-2 mb-3 text-blue-400">
-                        <i data-lucide="file-text" class="w-4 h-4"></i>
-                        <h4 class="text-xs font-bold uppercase tracking-wider">História Gerada</h4>
-                    </div>
                     <div class="card-bg border border-gray-700 rounded p-4 text-sm text-gray-300 shadow-md">
                         <p id="output-story" class="leading-relaxed"></p>
                     </div>
-                    
-                    <!-- Feedback Context -->
-                    <div class="bg-blue-900/10 border border-blue-900/30 p-3 rounded text-xs text-blue-300 mt-4 italic">
-                        <i data-lucide="info" class="w-3 h-3 inline mr-1"></i>
-                        Rascunho gerado automaticamente. Você pode ajustar os inputs e gerar novamente.
-                    </div>
-
                     <button onclick="goToPage(2)" class="w-full bg-green-600 hover:bg-green-500 text-white font-medium py-3 px-4 rounded mt-8 flex items-center justify-center gap-2 shadow-lg"><span>Aprofundar Regras</span> <i data-lucide="arrow-right" class="w-4 h-4"></i></button>
                 </div>
-
-                <!-- Empty State Step 1 -->
                 <div id="empty-state-1" class="flex-1 flex flex-col items-center justify-center p-8 text-center text-gray-600">
                     <i data-lucide="bot" class="w-8 h-8 text-gray-500 mb-4"></i>
-                    <p>Preencha os campos para a IA gerar o rascunho.</p>
+                    <p>Preencha para gerar.</p>
                 </div>
             </aside>
         </div>
@@ -207,15 +149,22 @@
             <main class="flex-1 overflow-y-auto p-8 lg:p-12">
                 <div class="max-w-3xl mx-auto">
                     <button onclick="goToPage(1)" class="flex items-center gap-2 text-gray-400 hover:text-white mb-6 text-sm"><i data-lucide="arrow-left" class="w-4 h-4"></i> Voltar</button>
-                    <div class="mb-8"><h2 class="text-2xl font-bold text-white">Detalhamento de Regras</h2><p class="text-gray-400">A IA analisará sua história para sugerir regras.</p></div>
+                    <div class="mb-8"><h2 class="text-2xl font-bold text-white">Detalhamento de Regras</h2><p class="text-gray-400">A IA analisará sua história para sugerir perguntas de negócio.</p></div>
                     
                     <div id="dynamic-questions-container" class="space-y-6"></div>
 
-                    <button onclick="generateFinalRules()" id="btn-finalize" class="w-full bg-green-600 hover:bg-green-500 text-white font-medium py-3 px-4 rounded flex items-center justify-center gap-2 mt-8 mb-12 shadow-lg"><i data-lucide="check-circle" class="w-4 h-4"></i> <span>Gerar Critérios</span></button>
+                    <button onclick="generateFinalRules()" id="btn-finalize" class="w-full bg-green-600 hover:bg-green-500 text-white font-medium py-3 px-4 rounded flex items-center justify-center gap-2 mt-8 mb-12 shadow-lg"><i data-lucide="check-circle" class="w-4 h-4"></i> <span>Consolidar Regras</span></button>
                 </div>
             </main>
             <aside class="w-[400px] border-l border-gray-800 bg-[#0f111a] flex flex-col shrink-0">
                 <div class="p-6 border-b border-gray-800"><h3 class="font-bold text-white text-lg">Regras Consolidadas</h3></div>
+                
+                <!-- Loading Rules -->
+                <div id="loading-state-2" class="hidden flex-1 flex flex-col items-center justify-center p-8 text-center text-gray-600 fade-in">
+                     <i data-lucide="loader-2" class="w-8 h-8 text-green-500 animate-spin mb-3"></i>
+                     <p class="text-gray-300 animate-pulse">Consolidando respostas...</p>
+                </div>
+
                 <div id="results-container-2" class="flex-1 p-6 overflow-y-auto space-y-8 hidden">
                     <div class="card-bg border border-gray-700 rounded p-4 text-sm text-gray-300 shadow-md"><ul id="final-rules-list" class="space-y-3 list-disc list-inside"></ul></div>
                     <button onclick="goToPage(3)" class="w-full bg-purple-600 hover:bg-purple-500 text-white font-medium py-3 px-4 rounded mt-8 flex items-center justify-center gap-2 shadow-lg"><span>Gerar Docs</span> <i data-lucide="file-code" class="w-4 h-4"></i></button>
@@ -231,7 +180,6 @@
                     <button onclick="goToPage(2)" class="flex items-center gap-2 text-gray-400 hover:text-white mb-6 text-sm"><i data-lucide="arrow-left" class="w-4 h-4"></i> Voltar</button>
                     <div class="mb-8"><h2 class="text-2xl font-bold text-white">Documentação Gherkin</h2><p class="text-gray-400">Cobertura total das regras via IA.</p></div>
                     
-                    <!-- Trigger Box -->
                     <div id="generation-status-box" class="card-bg border border-gray-700 rounded-lg p-6 text-center mb-8">
                         <i data-lucide="cpu" class="w-10 h-10 text-purple-500 mx-auto mb-3"></i>
                         <h3 class="text-lg font-bold text-white mb-2">Motor de Gherkin 4D</h3>
@@ -239,7 +187,6 @@
                         <button onclick="generateDocumentation()" id="btn-docs" class="bg-purple-600 hover:bg-purple-500 text-white font-bold py-2 px-6 rounded shadow-lg transition-all active:scale-95">Gerar Cobertura 100%</button>
                     </div>
 
-                    <!-- Loading State (Hidden initially) -->
                     <div id="docs-loading-state" class="hidden text-center py-12">
                          <div class="bg-gray-800/50 rounded-full p-4 inline-block mb-3">
                             <i data-lucide="loader-2" class="w-8 h-8 text-purple-500 animate-spin"></i>
@@ -248,11 +195,8 @@
                         <p class="text-xs text-gray-500 mt-1">Escrevendo Given/When/Then para cada regra.</p>
                     </div>
 
-                    <div id="docs-output-area" class="space-y-6 hidden">
-                        <!-- Content Injected Here -->
-                    </div>
+                    <div id="docs-output-area" class="space-y-6 hidden"></div>
                     
-                    <!-- Button to Next Step -->
                      <button id="btn-to-validation" onclick="goToPage(4)" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-medium py-3 px-4 rounded flex items-center justify-center gap-2 mt-8 mb-12 shadow-lg hidden">
                         <span>Ir para Validação de Qualidade</span> <i data-lucide="award" class="w-4 h-4"></i>
                     </button>
@@ -271,8 +215,6 @@
 
         <!-- ========================= VIEW 4: VALIDAÇÃO E REFINO ========================= -->
         <div id="view-validation" class="flex flex-1 w-full h-full absolute inset-0 opacity-0 pointer-events-none transition-opacity duration-500 bg-[#0B0E14]">
-            
-            <!-- Left Column: Score, Splitting and Chat -->
             <main class="flex-1 overflow-y-auto p-8 lg:p-12">
                 <div class="max-w-3xl mx-auto space-y-8">
                     <button onclick="goToPage(3)" class="flex items-center gap-2 text-gray-400 hover:text-white mb-6 text-sm"><i data-lucide="arrow-left" class="w-4 h-4"></i> Voltar</button>
@@ -280,7 +222,17 @@
                     <!-- Score Card -->
                     <div class="card-bg border border-gray-700 rounded-xl p-6 shadow-xl relative overflow-hidden">
                         <div class="absolute top-0 right-0 p-4 opacity-10"><i data-lucide="award" class="w-32 h-32 text-white"></i></div>
-                        <div class="flex items-center gap-6 relative z-10">
+                        
+                        <!-- Validation Loading -->
+                        <div id="validation-loading" class="flex items-center justify-center gap-4 py-8">
+                            <i data-lucide="loader-2" class="w-8 h-8 text-yellow-500 animate-spin"></i>
+                            <div class="text-left">
+                                <p class="text-white font-bold">Analisando Qualidade (INVEST)...</p>
+                                <p class="text-sm text-gray-400">Verificando completude e tamanho.</p>
+                            </div>
+                        </div>
+
+                        <div id="validation-result" class="hidden flex items-center gap-6 relative z-10 fade-in">
                             <div class="relative w-24 h-24 flex items-center justify-center">
                                 <svg class="w-full h-full" viewBox="0 0 36 36">
                                     <path class="text-gray-700" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-width="4" />
@@ -290,85 +242,36 @@
                             </div>
                             <div>
                                 <h2 class="text-2xl font-bold text-white mb-1">Quality Score</h2>
-                                <p id="score-message" class="text-gray-400 text-sm">Analisando complexidade e completude...</p>
+                                <p id="score-message" class="text-gray-400 text-sm">Análise concluída.</p>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Splitting Suggestions (Conditional) -->
+                    <!-- Splitting Suggestions -->
                     <div id="splitting-section" class="hidden fade-in">
                         <div class="bg-red-900/20 border border-red-900/50 rounded-lg p-5">
                             <div class="flex items-center gap-2 mb-4 text-red-400">
                                 <i data-lucide="scissors" class="w-5 h-5"></i>
                                 <h3 class="font-bold">História muito grande! Sugestões de Quebra (Splitting):</h3>
                             </div>
-                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                                <!-- Option 1 -->
-                                <button onclick="splitStory('flow')" class="bg-[#0B0E14] border border-gray-700 hover:border-blue-500 p-4 rounded text-left transition-colors group">
-                                    <div class="text-xs text-blue-400 font-bold uppercase mb-2">Opção 1</div>
-                                    <div class="font-semibold text-white mb-1">Por Fluxo</div>
-                                    <p class="text-xs text-gray-500">Separar "Pesquisa" de "Detalhes" e "Compra".</p>
-                                    <div class="mt-3 flex justify-end"><i data-lucide="arrow-right-circle" class="w-5 h-5 text-gray-600 group-hover:text-blue-500"></i></div>
-                                </button>
-                                <!-- Option 2 -->
-                                <button onclick="splitStory('data')" class="bg-[#0B0E14] border border-gray-700 hover:border-green-500 p-4 rounded text-left transition-colors group">
-                                    <div class="text-xs text-green-400 font-bold uppercase mb-2">Opção 2</div>
-                                    <div class="font-semibold text-white mb-1">Por Tipo de Dado</div>
-                                    <p class="text-xs text-gray-500">Validar dados simples primeiro, complexos depois.</p>
-                                    <div class="mt-3 flex justify-end"><i data-lucide="arrow-right-circle" class="w-5 h-5 text-gray-600 group-hover:text-green-500"></i></div>
-                                </button>
-                                <!-- Option 3 -->
-                                <button onclick="splitStory('user')" class="bg-[#0B0E14] border border-gray-700 hover:border-purple-500 p-4 rounded text-left transition-colors group">
-                                    <div class="text-xs text-purple-400 font-bold uppercase mb-2">Opção 3</div>
-                                    <div class="font-semibold text-white mb-1">Por Usuário</div>
-                                    <p class="text-xs text-gray-500">Admin tem fluxo completo, User tem básico.</p>
-                                    <div class="mt-3 flex justify-end"><i data-lucide="arrow-right-circle" class="w-5 h-5 text-gray-600 group-hover:text-purple-500"></i></div>
-                                </button>
+                            <div id="splitting-options-container" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                <!-- Dynamic Options Injected Here -->
                             </div>
                         </div>
                     </div>
-
-                    <!-- Chat Interface -->
-                    <div class="card-bg border border-gray-700 rounded-lg flex flex-col h-[400px]">
-                        <div class="p-4 border-b border-gray-700 bg-[#1e2330] flex items-center gap-2">
-                            <div class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
-                            <span class="text-sm font-bold text-gray-200">Refinamento Assistido por IA</span>
-                        </div>
-                        <div id="chat-messages" class="flex-1 overflow-y-auto p-4 space-y-4">
-                            <!-- Initial Message -->
-                            <div class="flex justify-start">
-                                <div class="chat-bubble-ai p-3 max-w-[80%] text-sm shadow-sm">
-                                    <p>Olá! Eu analisei sua história. Ela está boa, mas podemos melhorar a clareza dos critérios de erro. Quer que eu reescreva o cenário de exceção?</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="p-4 border-t border-gray-700 bg-[#0B0E14] flex gap-2">
-                            <input id="chat-input" type="text" class="flex-1 bg-[#151923] border border-gray-700 rounded px-4 py-2 text-sm text-white focus:outline-none focus:border-blue-500" placeholder="Digite sua alteração (ex: 'Mude o usuário para Admin')..." onkeypress="handleEnter(event)">
-                            <button onclick="sendMessage()" class="bg-blue-600 hover:bg-blue-500 text-white p-2 rounded transition-colors"><i data-lucide="send" class="w-5 h-5"></i></button>
-                        </div>
-                    </div>
-
                 </div>
             </main>
-
-            <!-- Right Column: Final Deliverable List -->
             <aside class="w-[400px] border-l border-gray-800 bg-[#0f111a] flex flex-col shrink-0">
                 <div class="p-6 border-b border-gray-800">
                     <h3 class="font-bold text-white text-lg">Backlog de Histórias</h3>
                     <p class="text-xs text-gray-500 mt-1">Resultado Final</p>
                 </div>
-
                 <div id="backlog-container" class="flex-1 p-6 overflow-y-auto space-y-4">
-                    <!-- Standard Single Story View -->
-                    <div id="single-story-view" class="fade-in">
+                     <div id="single-story-view" class="fade-in">
                         <div class="text-xs font-bold text-gray-500 uppercase mb-2">História Principal</div>
-                        <div class="card-bg border border-gray-700 border-l-4 border-l-blue-500 rounded p-4 hover:bg-[#1e2330] cursor-pointer transition-colors group">
-                            <h4 class="font-bold text-gray-200 text-sm mb-1 group-hover:text-blue-400">US-01: <span id="sidebar-story-title">Título Dinâmico</span></h4>
-                            <p class="text-xs text-gray-500 line-clamp-2">Como usuário, quero realizar ação...</p>
-                            <div class="mt-2 flex gap-2">
-                                <span class="text-[10px] bg-blue-900/30 text-blue-400 px-1.5 py-0.5 rounded border border-blue-900/50">Ready</span>
-                                <span class="text-[10px] bg-gray-800 text-gray-400 px-1.5 py-0.5 rounded border border-gray-700">8 pts</span>
-                            </div>
+                        <div class="card-bg border border-gray-700 border-l-4 border-l-blue-500 rounded p-4">
+                            <h4 class="font-bold text-gray-200 text-sm mb-1">US-01: <span id="sidebar-story-title"></span></h4>
+                            <p class="text-xs text-gray-500">História consolidada.</p>
                         </div>
                     </div>
                 </div>
@@ -378,490 +281,285 @@
     </div>
 
     <script>
-        // --- State Management ---
+        // --- CONSTANTS & STATE ---
+        const API_URL = "http://localhost:5000/api";
+        
         let state = {
             step: 1,
             idea: "", user: "", action: "", benefit: "", storyText: "",
-            rawRules: [],
-            isSplit: false
+            generatedQuestions: [], // Stores question objects from API
+            rawRules: [],           // Stores consolidated rules from API
+            scenarios: [],          // Stores generated Gherkin scenarios
+            validation: null        // Stores validation result
         };
 
-        // Initialize Icons
         lucide.createIcons();
 
-        // --- NAVIGATION ---
-        function navigateTo(targetStep) {
-            if (targetStep > 1 && !state.storyText) return alert("Complete a etapa 1.");
-            if (targetStep > 2 && state.rawRules.length === 0) return alert("Complete a etapa 2.");
-            goToPage(targetStep);
+        // --- CORE NAVIGATION ---
+        function navigateTo(step) {
+            // Simple validation before moving forward
+            if (step > 1 && !state.storyText) return alert("Complete a etapa 1.");
+            if (step > 2 && state.rawRules.length === 0) return alert("Complete a etapa 2.");
+            if (step > 3 && state.scenarios.length === 0) return alert("Complete a etapa 3.");
+
+            goToPage(step);
         }
 
-        function goToPage(pageNumber) {
-            const views = [
-                document.getElementById('view-definition'),
-                document.getElementById('view-rules'),
-                document.getElementById('view-docs'),
-                document.getElementById('view-validation')
-            ];
-            const indicators = [
-                document.getElementById('step-1-indicator'),
-                document.getElementById('step-2-indicator'),
-                document.getElementById('step-3-indicator'),
-                document.getElementById('step-4-indicator')
-            ];
-
-            views.forEach(v => { v.classList.add('opacity-0', 'pointer-events-none'); v.classList.remove('z-10'); });
+        function goToPage(n) {
+            const views = ['view-definition', 'view-rules', 'view-docs', 'view-validation'];
+            const indicators = ['step-1-indicator', 'step-2-indicator', 'step-3-indicator', 'step-4-indicator'];
             
-            indicators.forEach((ind, index) => {
-                ind.className = "flex items-center gap-2 pb-1 border-b-2 border-transparent step-inactive transition-all cursor-pointer";
-                ind.querySelector('span').className = "w-5 h-5 rounded-full border border-gray-600 flex items-center justify-center text-xs";
-                
-                if (index + 1 === pageNumber) {
-                    ind.className = "flex items-center gap-2 pb-1 border-b-2 step-active transition-all cursor-pointer";
-                    ind.querySelector('span').className = "w-5 h-5 rounded-full border flex items-center justify-center text-xs";
-                } else if (index + 1 < pageNumber) {
-                    ind.className = "flex items-center gap-2 pb-1 border-b-2 border-blue-900/50 text-blue-400 transition-all cursor-pointer";
-                    ind.querySelector('span').className = "w-5 h-5 rounded-full bg-blue-900 border border-blue-500 text-blue-200 flex items-center justify-center text-xs font-bold";
-                    ind.querySelector('span').innerHTML = "✓";
+            views.forEach((v, i) => {
+                const el = document.getElementById(v);
+                if (i + 1 === n) {
+                    el.classList.remove('opacity-0', 'pointer-events-none');
+                    el.classList.add('z-10');
+                } else {
+                    el.classList.add('opacity-0', 'pointer-events-none');
+                    el.classList.remove('z-10');
                 }
             });
 
-            const targetView = views[pageNumber - 1];
-            targetView.classList.remove('opacity-0', 'pointer-events-none');
-            targetView.classList.add('z-10');
+            indicators.forEach((ind, i) => {
+                const el = document.getElementById(ind);
+                el.className = `flex items-center gap-2 pb-1 border-b-2 transition-all cursor-pointer ${i + 1 === n ? 'step-active' : 'step-inactive border-transparent'}`;
+                // Optional: Add checkmark logic here for completed steps
+            });
 
-            state.step = pageNumber;
-
-            if(pageNumber === 2) initPage2();
-            if(pageNumber === 3) initPage3();
-            if(pageNumber === 4) initPage4();
+            state.step = n;
+            if (n === 2) initPage2();
+            if (n === 3) initPage3();
+            if (n === 4) initPage4();
         }
 
-        // --- PAGE 1: DYNAMIC STORY GENERATION (UPDATED) ---
-        async function generateStory() {
-            // Get Inputs
-            const idea = document.getElementById('input-idea').value;
-            let user = document.getElementById('input-user').value;
-            let action = document.getElementById('input-action').value;
-            let benefit = document.getElementById('input-benefit').value;
-
-            // UI Feedback
-            const btn = document.getElementById('btn-generate');
-            const emptyState = document.getElementById('empty-state-1');
-            const loadingState = document.getElementById('loading-state-1');
-            const resultsContainer = document.getElementById('results-container-1');
-
-            // Button Loading State
-            btn.disabled = true;
-            btn.innerHTML = `<i data-lucide="loader-2" class="w-4 h-4 animate-spin"></i> Escrevendo...`;
-            
-            // Sidebar Loading State
-            emptyState.classList.add('hidden');
-            resultsContainer.classList.add('hidden');
-            loadingState.classList.remove('hidden');
-            lucide.createIcons();
-
+        // --- API HELPER ---
+        async function postAPI(endpoint, data) {
             try {
-                // CALL API (Simulated)
-                const apiResult = await fetchAIStory(idea, user, action, benefit);
-                
-                // Update State with API Result (In case AI inferred empty fields)
-                state = { 
-                    ...state, 
-                    idea, 
-                    user: apiResult.user, 
-                    action: apiResult.action, 
-                    benefit: apiResult.benefit,
-                    storyText: apiResult.formattedStory 
-                };
-
-                // Render Results
-                document.getElementById('output-story').innerHTML = state.storyText;
-                
-                // Show Sidebar
-                loadingState.classList.add('hidden');
-                resultsContainer.classList.remove('hidden');
-                
+                const response = await fetch(`${API_URL}${endpoint}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                if (!response.ok) throw new Error('Falha na API: ' + response.statusText);
+                return await response.json();
             } catch (error) {
                 console.error(error);
-                loadingState.innerHTML = `<p class="text-red-400">Erro ao gerar história.</p>`;
-            } finally {
-                // Reset Button
-                btn.disabled = false;
-                btn.innerHTML = `<i data-lucide="sparkles" class="w-4 h-4"></i> <span>Regerar com IA</span>`;
-                lucide.createIcons();
+                document.getElementById('api-error-banner').classList.remove('hidden');
+                setTimeout(() => document.getElementById('api-error-banner').classList.add('hidden'), 5000);
+                throw error;
             }
         }
 
-        // --- MOCK API FOR STORY GENERATION ---
-        async function fetchAIStory(idea, user, action, benefit) {
-            // ============================================================
-            // INSTRUÇÕES PARA INTEGRAÇÃO REAL:
-            // 1. Envie {idea, user, action, benefit} para seu backend.
-            // 2. Se o usuário deixou campos em branco, a LLM deve inferir baseada na 'idea'.
-            // 3. Retorne JSON: { formattedStory, user, action, benefit }
-            // ============================================================
+        // --- STEP 1: GENERATE STORY ---
+        async function generateStory() {
+            const idea = document.getElementById('input-idea').value;
+            const user = document.getElementById('input-user').value;
+            const action = document.getElementById('input-action').value;
+            const benefit = document.getElementById('input-benefit').value;
 
-            return new Promise(resolve => {
-                setTimeout(() => {
-                    // Logic to Simulate AI Inference (If fields are empty)
-                    const inferredUser = user || "Usuário Padrão";
-                    const inferredAction = action || (idea ? "utilizar a funcionalidade descrita" : "realizar a ação");
-                    const inferredBenefit = benefit || "otimizar seu processo de trabalho";
-                    
-                    const storyHTML = `<strong>Como</strong> ${inferredUser},<br><strong>Eu quero</strong> ${inferredAction},<br><strong>Para que</strong> ${inferredBenefit}.`;
-                    
-                    resolve({
-                        formattedStory: storyHTML,
-                        user: inferredUser,
-                        action: inferredAction,
-                        benefit: inferredBenefit
-                    });
-                }, 1500); // 1.5s simulated delay
-            });
-        }
-
-        // --- UPDATED: DYNAMIC API INTEGRATION FOR RULES PAGE ---
-        async function initPage2() {
-            const container = document.getElementById('dynamic-questions-container');
-            if(container.children.length > 0) return; 
-
-            // Loading
-            container.innerHTML = `
-                <div class="text-center py-10 fade-in">
-                    <div class="bg-gray-800/50 rounded-full p-4 inline-block mb-3">
-                        <i data-lucide="loader-2" class="w-8 h-8 text-blue-500 animate-spin"></i>
-                    </div>
-                    <p class="text-gray-300 font-medium">A IA está analisando sua história...</p>
-                    <p class="text-xs text-gray-500 mt-1">Identificando lacunas e regras de negócio.</p>
-                </div>
-            `;
-            lucide.createIcons();
+            // UI Loading
+            const btn = document.getElementById('btn-generate');
+            btn.innerHTML = `<i data-lucide="loader-2" class="w-4 h-4 animate-spin"></i> Processando...`;
+            document.getElementById('loading-state-1').classList.remove('hidden');
+            document.getElementById('results-container-1').classList.add('hidden');
+            document.getElementById('empty-state-1').classList.add('hidden');
 
             try {
-                // Async Fetch Questions
-                const questions = await fetchAIQuestions(state.storyText);
+                // API Call
+                const result = await postAPI('/generate-story', { idea, user, action, benefit });
+                
+                // State Update
+                state.storyText = result.formattedStory;
+                state.user = result.user;
+                state.action = result.action;
+                state.idea = idea;
 
                 // Render
-                container.innerHTML = '';
-                questions.forEach((q, i) => {
-                    const html = `
-                        <div class="card-bg p-4 rounded border border-gray-700 fade-in" style="animation-delay: ${i * 0.15}s">
-                            <label class="block text-sm text-gray-200 mb-2 flex items-start gap-2">
-                                <i data-lucide="help-circle" class="w-4 h-4 text-blue-500 mt-0.5 shrink-0"></i> 
-                                ${q.label}
-                            </label>
-                            <textarea id="q${i}" class="w-full input-bg border border-gray-700 rounded p-3 text-sm text-gray-300 focus:ring-1 focus:ring-blue-500 outline-none transition-all placeholder-gray-600 resize-none" rows="2" placeholder="${q.ph}"></textarea>
-                        </div>`;
-                    container.insertAdjacentHTML('beforeend', html);
-                });
+                document.getElementById('output-story').innerHTML = result.formattedStory;
+                document.getElementById('results-container-1').classList.remove('hidden');
+                document.getElementById('loading-state-1').classList.add('hidden');
+            } catch (e) {
+                document.getElementById('loading-state-1').innerHTML = `<p class="text-red-500">Erro ao conectar com API.</p>`;
+            } finally {
+                btn.innerHTML = `<i data-lucide="sparkles" class="w-4 h-4"></i> <span>Gerar Rascunho com IA</span>`;
                 lucide.createIcons();
-
-            } catch (error) {
-                container.innerHTML = `<p class="text-red-400 text-center">Erro ao conectar com a IA.</p>`;
             }
         }
 
-        async function fetchAIQuestions(contextStory) {
-            // MOCK API CALL
-            return new Promise(resolve => {
-                setTimeout(() => {
-                    const dynamicQuestions = [
-                        { l: `Quem NÃO deve ter permissão para realizar a ação de "${state.action}"?`, ph: "Ex: Usuários inativos, Clientes sem assinatura..." },
-                        { l: "O que deve acontecer se o sistema falhar ou estiver offline?", ph: "Ex: Mostrar mensagem de erro amigável, Salvar rascunho..." }
-                    ];
-                    if (state.idea.toLowerCase().includes('data') || state.idea.toLowerCase().includes('prazo')) {
-                        dynamicQuestions.push({ l: "Existem restrições de datas ou horários?", ph: "Ex: Não permitir agendamento no passado..." });
-                    }
-                    if (state.idea.toLowerCase().includes('preço') || state.idea.toLowerCase().includes('valor')) {
-                        dynamicQuestions.push({ l: "Existem regras financeiras ou de impostos?", ph: "Ex: Valores sempre positivos, calcular taxa..." });
-                    }
-                    resolve(dynamicQuestions);
-                }, 2000); 
-            });
-        }
+        // --- STEP 2: GENERATE QUESTIONS & CONSOLIDATE RULES ---
+        async function initPage2() {
+            const container = document.getElementById('dynamic-questions-container');
+            if (container.children.length > 0) return; // Avoid re-fetching
 
-        function generateFinalRules() {
-            const btn = document.getElementById('btn-finalize');
-            btn.innerHTML = `<i data-lucide="loader-2" class="w-4 h-4 animate-spin"></i> Processando...`;
-            setTimeout(() => {
-                state.rawRules = [
-                    {id: 'RN-01', text: `O usuário ${state.user} deve estar logado no sistema.`},
-                    {id: 'RN-02', text: `O sistema deve validar todos os campos de entrada antes de processar.`},
-                    {id: 'RN-03', text: `Em caso de erro na comunicação, o sistema deve permitir retentativa.`}
-                ];
-                let html = '';
-                state.rawRules.forEach(r => html += `<li><span class="text-green-400 font-bold">${r.id}:</span> ${r.text}</li>`);
-                document.getElementById('final-rules-list').innerHTML = html;
-                document.getElementById('results-container-2').classList.remove('hidden');
-                document.getElementById('empty-state-2').classList.add('hidden');
-                btn.innerHTML = `<i data-lucide="check-circle" class="w-4 h-4"></i> <span>Gerar Critérios</span>`;
-                lucide.createIcons();
-            }, 800);
-        }
-
-        // --- PAGE 3: DYNAMIC DOCUMENTATION GENERATION (UPDATED) ---
-
-        function initPage3() {
-             document.getElementById('rules-count-badge').innerText = `${state.rawRules.length} regras`;
-        }
-
-        // Função Principal Assíncrona para Documentação
-        async function generateDocumentation() {
-            const btn = document.getElementById('btn-docs');
-            const generationBox = document.getElementById('generation-status-box');
-            const loadingState = document.getElementById('docs-loading-state');
-            const container = document.getElementById('docs-output-area');
-            const sidebar = document.getElementById('docs-sidebar-container');
-            
-            // UI Update: Show Loading
-            generationBox.classList.add('hidden');
-            loadingState.classList.remove('hidden');
-            container.classList.add('hidden');
-            container.innerHTML = '';
-            sidebar.innerHTML = '';
+            container.innerHTML = `<div class="text-center py-8 text-gray-500"><i data-lucide="loader-2" class="w-6 h-6 animate-spin mx-auto mb-2"></i> Analisando história...</div>`;
+            lucide.createIcons();
 
             try {
-                // 1. CALL API (Simulated) passing the Rules
-                const generatedScenarios = await fetchAIGherkin(state.rawRules);
+                // Call API 2: Generate Questions
+                const questions = await postAPI('/generate-questions', { context: state.storyText });
+                state.generatedQuestions = questions; // Save structure to state
 
-                // 2. Render Results
-                generatedScenarios.forEach((scenario, i) => {
-                    // Main Content Render
-                    const cardHtml = `
-                        <div class="card-bg border border-gray-700 rounded-lg overflow-hidden fade-in" style="animation-delay: ${i * 0.15}s">
-                            <div class="bg-[#1e2330] px-4 py-2 border-b border-gray-700 flex justify-between items-center">
-                                <span class="text-xs font-bold text-green-400 bg-green-900/20 px-2 py-1 rounded border border-green-900/50">${scenario.ruleId}</span>
-                                <span class="text-xs text-gray-500 uppercase tracking-wider font-semibold">Gerado via API</span>
-                            </div>
+                container.innerHTML = '';
+                questions.forEach((q, i) => {
+                    container.innerHTML += `
+                        <div class="card-bg p-4 rounded border border-gray-700 fade-in" style="animation-delay: ${i * 0.1}s">
+                            <label class="block text-sm text-gray-200 mb-2 flex gap-2"><i data-lucide="help-circle" class="w-4 h-4 text-blue-500"></i> ${q.label}</label>
+                            <textarea id="q${i}" class="w-full input-bg border border-gray-700 rounded p-3 text-sm text-gray-300 focus:ring-1 focus:ring-blue-500" placeholder="${q.ph}"></textarea>
+                        </div>`;
+                });
+                lucide.createIcons();
+            } catch (e) {
+                container.innerHTML = `<p class="text-red-500 text-center">Erro ao carregar perguntas.</p>`;
+            }
+        }
+
+        async function generateFinalRules() {
+            const btn = document.getElementById('btn-finalize');
+            const loading = document.getElementById('loading-state-2');
+            const results = document.getElementById('results-container-2');
+            const empty = document.getElementById('empty-state-2');
+
+            btn.innerHTML = `<i data-lucide="loader-2" class="w-4 h-4 animate-spin"></i> Consolidando...`;
+            loading.classList.remove('hidden');
+            results.classList.add('hidden');
+            empty.classList.add('hidden');
+
+            // Collect Answers
+            const qaPairs = state.generatedQuestions.map((q, i) => {
+                const answer = document.getElementById(`q${i}`).value || "Não especificado";
+                return { question: q.label, answer: answer };
+            });
+
+            try {
+                // Call API 2b: Consolidate Rules
+                const rules = await postAPI('/consolidate-rules', { 
+                    context: state.storyText,
+                    qaPairs: qaPairs
+                });
+                
+                state.rawRules = rules;
+
+                // Render
+                let html = '';
+                rules.forEach(r => html += `<li class="text-gray-300 text-sm"><span class="text-green-400 font-bold">${r.id}:</span> ${r.text}</li>`);
+                document.getElementById('final-rules-list').innerHTML = html;
+                
+                results.classList.remove('hidden');
+                loading.classList.add('hidden');
+            } catch (e) {
+                loading.innerHTML = `<p class="text-red-500">Erro ao consolidar regras.</p>`;
+            } finally {
+                btn.innerHTML = `<i data-lucide="check-circle" class="w-4 h-4"></i> <span>Consolidar Regras</span>`;
+                lucide.createIcons();
+            }
+        }
+
+        // --- STEP 3: GENERATE GHERKIN ---
+        function initPage3() {
+            document.getElementById('rules-count-badge').innerText = `${state.rawRules.length} regras`;
+        }
+
+        async function generateDocumentation() {
+            const btn = document.getElementById('btn-docs');
+            const container = document.getElementById('docs-output-area');
+            const sidebar = document.getElementById('docs-sidebar-container');
+            const loading = document.getElementById('docs-loading-state');
+            const statusBox = document.getElementById('generation-status-box');
+
+            statusBox.classList.add('hidden');
+            loading.classList.remove('hidden');
+            
+            try {
+                // Call API 3: Generate Gherkin
+                const scenarios = await postAPI('/generate-gherkin', { rules: state.rawRules });
+                state.scenarios = scenarios;
+
+                container.innerHTML = '';
+                sidebar.innerHTML = '';
+
+                scenarios.forEach((s, i) => {
+                    // Main Content Card
+                    container.innerHTML += `
+                        <div class="card-bg border border-gray-700 rounded-lg overflow-hidden fade-in mb-4" style="animation-delay: ${i*0.1}s">
+                            <div class="bg-[#1e2330] px-4 py-2 border-b border-gray-700 flex justify-between"><span class="text-green-400 font-bold text-xs">${s.ruleId}</span></div>
                             <div class="p-5">
-                                <p class="text-sm text-gray-400 mb-4 italic border-l-2 border-gray-600 pl-3">"${scenario.originalRule}"</p>
-                                <div class="bg-[#0B0E14] rounded p-4 font-mono text-sm leading-relaxed border border-gray-800 shadow-inner">
-                                    ${scenario.gherkinText}
-                                </div>
+                                <p class="text-gray-400 text-sm mb-3 italic">"${s.originalRule}"</p>
+                                <div class="bg-[#0B0E14] p-4 rounded font-mono text-sm border border-gray-800 leading-relaxed whitespace-pre-line">${s.gherkinText}</div>
                             </div>
-                        </div>
-                    `;
-                    container.insertAdjacentHTML('beforeend', cardHtml);
-
-                    // Sidebar Matrix Render
-                    const sidebarHtml = `
-                        <div class="text-xs p-3 rounded border border-gray-800 bg-[#151923] hover:border-purple-500 transition-colors cursor-default fade-in" style="animation-delay: ${i * 0.1}s">
-                            <div class="flex items-center justify-between mb-1">
-                                <span class="font-bold text-green-500">${scenario.ruleId}</span>
-                                <i data-lucide="arrow-right" class="w-3 h-3 text-gray-600"></i>
-                                <span class="font-bold text-purple-400">OK</span>
-                            </div>
-                            <div class="text-gray-500 truncate" title="${scenario.originalRule}">${scenario.originalRule}</div>
-                        </div>
-                    `;
-                    sidebar.insertAdjacentHTML('beforeend', sidebarHtml);
+                        </div>`;
+                    
+                    // Sidebar Item
+                    sidebar.innerHTML += `
+                        <div class="text-xs p-3 rounded border border-gray-800 bg-[#151923] mb-2 fade-in">
+                            <div class="flex justify-between mb-1"><span class="text-green-500 font-bold">${s.ruleId}</span> <span class="text-purple-400">OK</span></div>
+                            <div class="truncate text-gray-500">${s.originalRule}</div>
+                        </div>`;
                 });
 
-                // UI Update: Show Content
-                loadingState.classList.add('hidden');
                 container.classList.remove('hidden');
-                document.getElementById('empty-state-3').classList.add('hidden');
+                loading.classList.add('hidden');
                 document.getElementById('btn-to-validation').classList.remove('hidden');
-                lucide.createIcons();
-
-            } catch (error) {
-                console.error(error);
-                loadingState.innerHTML = `<p class="text-red-400">Erro na geração da documentação.</p>`;
+            } catch (e) {
+                loading.innerHTML = `<p class="text-red-500">Erro ao gerar documentação.</p>`;
             }
         }
 
-        // --- MOCK API FOR GHERKIN ---
-        async function fetchAIGherkin(rulesList) {
-            // ============================================================
-            // INSTRUÇÕES PARA INTEGRAÇÃO REAL:
-            // 1. Receba 'rulesList' (array de objetos {id, text}).
-            // 2. Envie para seu backend.
-            // 3. O backend deve iterar sobre cada regra e pedir para a LLM gerar o Gherkin.
-            // 4. Retorne um array de objetos: { ruleId, originalRule, gherkinText }
-            // ============================================================
-
-            /* EXAMPLE FETCH:
-            const response = await fetch('api/generate-gherkin', { body: JSON.stringify({ rules: rulesList }) });
-            return await response.json();
-            */
-
-            return new Promise(resolve => {
-                setTimeout(() => {
-                    // Logic to Simulate Dynamic Generation per Rule
-                    const results = rulesList.map(rule => {
-                        return {
-                            ruleId: rule.id,
-                            originalRule: rule.text,
-                            gherkinText: generateMockGherkinText(rule, state)
-                        };
-                    });
-                    resolve(results);
-                }, 2500); // 2.5s simulated processing time
-            });
-        }
-
-        // Helper to generate text for the mock (Replace with Real AI response in prod)
-        function generateMockGherkinText(rule, currentState) {
-            const k = (w) => `<span class="gherkin-keyword">${w}</span>`;
-            const v = (w) => `<span class="gherkin-variable">${w}</span>`;
+        // --- STEP 4: VALIDATION & SPLITTING ---
+        async function initPage4() {
+            document.getElementById('sidebar-story-title').innerText = state.action || "Nova História";
             
-            // Simple keyword matching to make mock look "smart"
-            if(rule.text.includes("logado")) {
-                return `${k('Cenário:')} Validar Autenticação (${rule.id})<br>
-                        ${k('Dado')} que o usuário ${v(currentState.user)} não está autenticado<br>
-                        ${k('Quando')} tenta acessar a funcionalidade<br>
-                        ${k('Então')} o sistema deve redirecionar para o login.`;
-            } 
-            if(rule.text.includes("validar")) {
-                return `${k('Cenário:')} Validação de Campos (${rule.id})<br>
-                        ${k('Dado')} que estou preenchendo o formulário<br>
-                        ${k('Quando')} deixo campos obrigatórios em branco<br>
-                        ${k('Então')} o botão de confirmar deve permanecer desabilitado.`;
-            }
-            // Default
-            return `${k('Cenário:')} Validar Regra de Negócio ${rule.id}<br>
-                    ${k('Dado')} que o sistema está operando normalmente<br>
-                    ${k('Quando')} a condição da regra "${rule.text.substring(0, 15)}..." for atendida<br>
-                    ${k('Então')} o resultado deve ser garantido conforme especificado.`;
-        }
+            // UI Loading
+            document.getElementById('validation-loading').classList.remove('hidden');
+            document.getElementById('validation-result').classList.add('hidden');
+            document.getElementById('splitting-section').classList.add('hidden');
 
+            try {
+                // Call API 4: Validate Story
+                const result = await postAPI('/validate-story', {
+                    story: state.storyText,
+                    rules: state.rawRules,
+                    scenarios: state.scenarios
+                });
 
-        // --- PAGE 4: VALIDATION & SPLITTING LOGIC ---
+                state.validation = result;
 
-        function initPage4() {
-            // Set Title in Sidebar
-            document.getElementById('sidebar-story-title').innerText = state.action;
-
-            // Mock Quality Calculation
-            // If text is short (< 20 chars), score is low. If long, score is medium.
-            // For demo: If "action" contains "e", we consider it complex to trigger splitting.
-            const isComplex = state.action.length > 10; 
-            const score = isComplex ? 65 : 92;
-            const color = score > 80 ? 'text-green-500' : (score > 60 ? 'text-yellow-500' : 'text-red-500');
-            const dashArray = `${score}, 100`;
-
-            // Animate Score
-            setTimeout(() => {
-                const circle = document.getElementById('score-circle');
-                const text = document.getElementById('score-text');
-                const msg = document.getElementById('score-message');
+                // Animate Score
+                document.getElementById('validation-loading').classList.add('hidden');
+                document.getElementById('validation-result').classList.remove('hidden');
                 
-                circle.setAttribute('stroke-dasharray', dashArray);
+                const score = result.score;
+                const circle = document.getElementById('score-circle');
+                const color = score > 80 ? 'text-green-500' : (score > 60 ? 'text-yellow-500' : 'text-red-500');
+                
+                // Reset animation
                 circle.setAttribute('class', `transition-all duration-1000 ease-out ${color}`);
-                text.innerText = score;
+                setTimeout(() => {
+                     circle.setAttribute('stroke-dasharray', `${score}, 100`);
+                }, 100);
 
-                if(score < 75) {
-                    msg.innerHTML = `<span class="text-red-400 font-bold">Atenção!</span> História considerada "Grande". Recomendamos quebra.`;
-                    document.getElementById('splitting-section').classList.remove('hidden');
-                } else {
-                    msg.innerText = "História bem definida e pronta para desenvolvimento.";
-                    document.getElementById('splitting-section').classList.add('hidden');
-                }
-            }, 500);
-        }
+                document.getElementById('score-text').innerText = score;
+                document.getElementById('score-message').innerText = result.message;
 
-        function handleEnter(e) {
-            if(e.key === 'Enter') sendMessage();
-        }
-
-        function sendMessage() {
-            const input = document.getElementById('chat-input');
-            const text = input.value.trim();
-            if(!text) return;
-
-            const chat = document.getElementById('chat-messages');
-
-            // User Message
-            chat.innerHTML += `
-                <div class="flex justify-end fade-in">
-                    <div class="chat-bubble-user p-3 max-w-[80%] text-sm shadow-sm">
-                        <p>${text}</p>
-                    </div>
-                </div>`;
-            
-            input.value = '';
-            chat.scrollTop = chat.scrollHeight;
-
-            // AI Response (Mock)
-            setTimeout(() => {
-                chat.innerHTML += `
-                    <div class="flex justify-start fade-in">
-                        <div class="chat-bubble-ai p-3 max-w-[80%] text-sm shadow-sm flex gap-2">
-                            <i data-lucide="bot" class="w-4 h-4 mt-0.5 text-blue-400"></i>
-                            <div>
-                                <p>Entendido. Atualizei o critério para considerar <strong>"${text}"</strong>.</p>
-                                <p class="text-xs text-gray-400 mt-1">Pontuação recalculada: +2 pontos.</p>
+                // Handle Splitting
+                if (result.isLarge && result.splittingSuggestions && result.splittingSuggestions.length > 0) {
+                    const container = document.getElementById('splitting-options-container');
+                    container.innerHTML = '';
+                    
+                    result.splittingSuggestions.forEach(opt => {
+                        container.innerHTML += `
+                            <div class="bg-[#0B0E14] border border-gray-700 p-4 rounded hover:border-blue-500 transition-colors cursor-pointer group">
+                                <div class="text-xs font-bold text-blue-400 uppercase mb-2">${opt.type}</div>
+                                <h4 class="font-bold text-white mb-1 text-sm">${opt.title}</h4>
+                                <p class="text-xs text-gray-500">${opt.description}</p>
                             </div>
-                        </div>
-                    </div>`;
-                chat.scrollTop = chat.scrollHeight;
-                lucide.createIcons();
-            }, 1000);
-        }
+                        `;
+                    });
+                    document.getElementById('splitting-section').classList.remove('hidden');
+                }
 
-        function splitStory(type) {
-            const backlog = document.getElementById('backlog-container');
-            const singleView = document.getElementById('single-story-view');
-            
-            // Hide Original
-            singleView.classList.add('hidden');
-
-            // Generate Mock Splits
-            let splits = [];
-            if(type === 'flow') {
-                splits = [
-                    { title: `Pesquisa de ${state.action}`, pts: 3 },
-                    { title: `Seleção e Detalhes`, pts: 5 },
-                    { title: `Finalização/Checkout`, pts: 8 }
-                ];
-            } else if(type === 'data') {
-                splits = [
-                    { title: `Cadastro Básico`, pts: 3 },
-                    { title: `Validação de Documentos`, pts: 5 }
-                ];
-            } else {
-                splits = [
-                    { title: `Fluxo Admin`, pts: 5 },
-                    { title: `Fluxo Cliente Final`, pts: 5 }
-                ];
+            } catch (e) {
+                document.getElementById('validation-loading').innerHTML = `<p class="text-red-500">Erro na validação.</p>`;
             }
-
-            // Render Splits
-            let html = `<div class="fade-in"><div class="text-xs font-bold text-blue-400 uppercase mb-2 flex items-center gap-2"><i data-lucide="scissors" class="w-3 h-3"></i> História Quebrada (${type})</div>`;
-            
-            splits.forEach((s, i) => {
-                html += `
-                    <div class="card-bg border border-gray-700 border-l-4 border-l-green-500 rounded p-4 mb-3 hover:bg-[#1e2330] cursor-pointer transition-colors group">
-                        <h4 class="font-bold text-gray-200 text-sm mb-1 group-hover:text-green-400">US-01.${i+1}: ${s.title}</h4>
-                        <p class="text-xs text-gray-500 line-clamp-2">Como ${state.user}, quero parte do fluxo...</p>
-                        <div class="mt-2 flex gap-2">
-                            <span class="text-[10px] bg-green-900/30 text-green-400 px-1.5 py-0.5 rounded border border-green-900/50">New</span>
-                            <span class="text-[10px] bg-gray-800 text-gray-400 px-1.5 py-0.5 rounded border border-gray-700">${s.pts} pts</span>
-                        </div>
-                    </div>`;
-            });
-            html += `<button onclick="resetSplit()" class="text-xs text-gray-500 hover:text-white underline w-full text-center mt-2">Desfazer Quebra</button></div>`;
-
-            backlog.innerHTML = html;
-            
-            // Add system message to chat
-            const chat = document.getElementById('chat-messages');
-            chat.innerHTML += `
-                 <div class="flex justify-center fade-in my-2">
-                    <div class="bg-blue-900/20 text-blue-300 text-xs px-3 py-1 rounded-full border border-blue-900/50">
-                        História dividida em ${splits.length} partes com sucesso.
-                    </div>
-                </div>`;
-            chat.scrollTop = chat.scrollHeight;
-
-            lucide.createIcons();
-        }
-
-        function resetSplit() {
-            document.getElementById('backlog-container').innerHTML = '';
-            document.getElementById('backlog-container').appendChild(document.getElementById('single-story-view'));
-            document.getElementById('single-story-view').classList.remove('hidden');
         }
 
     </script>
