@@ -36,7 +36,6 @@
                 <p class="text-xs text-gray-400">Powered by Gemini AI</p>
             </div>
         </div>
-        <!-- Stepper -->
         <div class="flex items-center gap-4 text-sm font-medium">
             <div id="step-1-indicator" class="flex items-center gap-2 pb-1 border-b-2 step-active cursor-pointer" onclick="navigateTo(1)"><span class="w-5 h-5 rounded-full border flex items-center justify-center text-xs">1</span> Definição</div>
             <div class="w-8 h-px bg-gray-700"></div>
@@ -60,9 +59,9 @@
                     <div class="mb-8"><div class="flex items-center gap-2 mb-2"><i data-lucide="lightbulb" class="text-blue-500 w-6 h-6"></i><h2 class="text-2xl font-bold text-white">Definir a Ideia</h2></div><p class="text-gray-400">Responda às perguntas abaixo para que a IA gere um rascunho inicial.</p></div>
                     <div class="space-y-6 card-bg p-6 rounded-lg border border-gray-800 shadow-xl">
                         <div class="space-y-2"><label class="block text-sm font-semibold text-gray-200">1.0 Descreva sua ideia ou necessidade</label><textarea id="input-idea" rows="3" class="w-full input-bg border border-gray-700 rounded p-3 text-sm text-gray-300 focus:ring-2 focus:ring-blue-600 outline-none resize-none" placeholder="Ex: Preciso de uma funcionalidade..."></textarea></div>
-                        <div class="space-y-2"><label class="block text-sm font-semibold text-gray-200">1.1 Quem é o usuário? (Persona)</label><textarea id="input-user" rows="2" class="w-full input-bg border border-gray-700 rounded p-3 text-sm text-gray-300 focus:ring-2 focus:ring-blue-600 outline-none resize-none" placeholder="Ex: Gerente de Vendas, Cliente Final..."></textarea></div>
-                        <div class="space-y-2"><label class="block text-sm font-semibold text-gray-200">1.2 Qual é a ação principal?</label><textarea id="input-action" rows="2" class="w-full input-bg border border-gray-700 rounded p-3 text-sm text-gray-300 focus:ring-2 focus:ring-blue-600 outline-none resize-none" placeholder="Ex: Filtrar produtos, Exportar relatórios..."></textarea></div>
-                        <div class="space-y-2"><label class="block text-sm font-semibold text-gray-200">1.3 Qual é o benefício/valor?</label><textarea id="input-benefit" rows="2" class="w-full input-bg border border-gray-700 rounded p-3 text-sm text-gray-300 focus:ring-2 focus:ring-blue-600 outline-none resize-none" placeholder="Ex: Economizar tempo, Tomar decisões mais rápidas..."></textarea></div>
+                        <div class="space-y-2"><label class="block text-sm font-semibold text-gray-200">1.1 Quem é o usuário? (Persona)</label><textarea id="input-user" rows="2" class="w-full input-bg border border-gray-700 rounded p-3 text-sm text-gray-300 focus:ring-2 focus:ring-blue-600 outline-none resize-none"></textarea></div>
+                        <div class="space-y-2"><label class="block text-sm font-semibold text-gray-200">1.2 Qual é a ação principal?</label><textarea id="input-action" rows="2" class="w-full input-bg border border-gray-700 rounded p-3 text-sm text-gray-300 focus:ring-2 focus:ring-blue-600 outline-none resize-none"></textarea></div>
+                        <div class="space-y-2"><label class="block text-sm font-semibold text-gray-200">1.3 Qual é o benefício/valor?</label><textarea id="input-benefit" rows="2" class="w-full input-bg border border-gray-700 rounded p-3 text-sm text-gray-300 focus:ring-2 focus:ring-blue-600 outline-none resize-none"></textarea></div>
                         <button onclick="generateStory()" id="btn-generate" class="w-full bg-blue-700 hover:bg-blue-600 text-white font-medium py-3 px-4 rounded flex items-center justify-center gap-2 mt-4 shadow-lg group"><i data-lucide="sparkles" class="w-4 h-4"></i> <span>Gerar Rascunho com IA</span></button>
                     </div>
                 </div>
@@ -78,32 +77,18 @@
             </aside>
         </div>
 
-        <!-- VIEW 2: REGRAS (CHAT INCLUÍDO) -->
+        <!-- VIEW 2: REGRAS -->
         <div id="view-rules" class="flex flex-1 w-full h-full absolute inset-0 opacity-0 pointer-events-none transition-opacity duration-500 bg-[#0B0E14]">
             <main class="flex-1 overflow-y-auto p-8 lg:p-12">
                 <div class="max-w-3xl mx-auto">
                     <button onclick="goToPage(1)" class="flex items-center gap-2 text-gray-400 hover:text-white mb-6 text-sm"><i data-lucide="arrow-left" class="w-4 h-4"></i> Voltar</button>
                     <div class="mb-8"><h2 class="text-2xl font-bold text-white">Detalhamento e Regras</h2><p class="text-gray-400">Responda as perguntas ou use o chat para adicionar regras manualmente.</p></div>
-                    
-                    <!-- Questions Container -->
                     <div id="dynamic-questions-container" class="space-y-6 mb-8"></div>
-
-                    <!-- Chat Container -->
                     <div class="card-bg border border-gray-700 rounded-lg p-4 mb-8">
-                        <div class="flex items-center gap-2 mb-4 border-b border-gray-700 pb-2">
-                            <i data-lucide="message-square-plus" class="w-5 h-5 text-blue-400"></i>
-                            <h3 class="font-bold text-white text-sm">Adicionar Regras via Chat</h3>
-                        </div>
-                        <div id="rules-chat-history" class="h-40 overflow-y-auto space-y-3 mb-4 pr-2 flex flex-col">
-                            <!-- Chat bubbles appear here -->
-                            <div class="chat-bubble-ai">Olá! Se houver alguma regra específica que não perguntei (ex: permissões, validações), me conte aqui.</div>
-                        </div>
-                        <div class="flex gap-2">
-                            <input id="chat-rules-input" type="text" class="flex-1 bg-[#0B0E14] border border-gray-700 rounded px-3 py-2 text-sm text-white focus:ring-1 focus:ring-blue-500" placeholder="Ex: O usuário precisa ser Admin..." onkeypress="handleRulesChatEnter(event)">
-                            <button onclick="sendRulesChat()" class="bg-blue-600 hover:bg-blue-500 text-white p-2 rounded transition-colors"><i data-lucide="send" class="w-4 h-4"></i></button>
-                        </div>
+                        <div class="flex items-center gap-2 mb-4 border-b border-gray-700 pb-2"><i data-lucide="message-square-plus" class="w-5 h-5 text-blue-400"></i><h3 class="font-bold text-white text-sm">Adicionar Regras via Chat</h3></div>
+                        <div id="rules-chat-history" class="h-40 overflow-y-auto space-y-3 mb-4 pr-2 flex flex-col"><div class="chat-bubble-ai">Olá! Se houver alguma regra específica que não perguntei, me conte aqui.</div></div>
+                        <div class="flex gap-2"><input id="chat-rules-input" type="text" class="flex-1 bg-[#0B0E14] border border-gray-700 rounded px-3 py-2 text-sm text-white focus:ring-1 focus:ring-blue-500" placeholder="Ex: O usuário precisa ser Admin..." onkeypress="handleRulesChatEnter(event)"><button onclick="sendRulesChat()" class="bg-blue-600 hover:bg-blue-500 text-white p-2 rounded transition-colors"><i data-lucide="send" class="w-4 h-4"></i></button></div>
                     </div>
-
                     <button onclick="generateFinalRules()" id="btn-finalize" class="w-full bg-green-600 hover:bg-green-500 text-white font-medium py-3 px-4 rounded flex items-center justify-center gap-2 mt-8 mb-12 shadow-lg"><i data-lucide="check-circle" class="w-4 h-4"></i> <span>Consolidar Todas as Regras</span></button>
                 </div>
             </main>
@@ -125,8 +110,6 @@
                     <button onclick="goToPage(2)" class="flex items-center gap-2 text-gray-400 hover:text-white mb-6 text-sm"><i data-lucide="arrow-left" class="w-4 h-4"></i> Voltar</button>
                     <div class="mb-8"><h2 class="text-2xl font-bold text-white">Documentação Gherkin</h2><p class="text-gray-400">Cobertura total das regras via IA.</p></div>
                     <div id="generation-status-box" class="card-bg border border-gray-700 rounded-lg p-6 text-center mb-8">
-                        <i data-lucide="cpu" class="w-10 h-10 text-purple-500 mx-auto mb-3"></i><h3 class="text-lg font-bold text-white mb-2">Motor de Gherkin 4D</h3>
-                        <p class="text-sm text-gray-400 mb-4">Pronto para transformar <span id="rules-count-badge" class="text-white font-bold">0 regras</span> em cenários testáveis via API.</p>
                         <button onclick="generateDocumentation()" id="btn-docs" class="bg-purple-600 hover:bg-purple-500 text-white font-bold py-2 px-6 rounded shadow-lg transition-all active:scale-95">Gerar Cobertura 100%</button>
                     </div>
                     <div id="docs-loading-state" class="hidden text-center py-12"><div class="bg-gray-800/50 rounded-full p-4 inline-block mb-3"><i data-lucide="loader-2" class="w-8 h-8 text-purple-500 animate-spin"></i></div><p class="text-gray-300 font-medium animate-pulse">Gerando cenários...</p></div>
@@ -140,21 +123,36 @@
             </aside>
         </div>
 
-        <!-- VIEW 4: VALIDAÇÃO -->
+        <!-- VIEW 4: VALIDAÇÃO (ATUALIZADA) -->
         <div id="view-validation" class="flex flex-1 w-full h-full absolute inset-0 opacity-0 pointer-events-none transition-opacity duration-500 bg-[#0B0E14]">
             <main class="flex-1 overflow-y-auto p-8 lg:p-12">
                 <div class="max-w-3xl mx-auto space-y-8">
                     <button onclick="goToPage(3)" class="flex items-center gap-2 text-gray-400 hover:text-white mb-6 text-sm"><i data-lucide="arrow-left" class="w-4 h-4"></i> Voltar</button>
+                    
+                    <!-- Score Card -->
                     <div class="card-bg border border-gray-700 rounded-xl p-6 shadow-xl relative overflow-hidden">
                         <div class="absolute top-0 right-0 p-4 opacity-10"><i data-lucide="award" class="w-32 h-32 text-white"></i></div>
                         <div id="validation-loading" class="flex items-center justify-center gap-4 py-8"><i data-lucide="loader-2" class="w-8 h-8 text-yellow-500 animate-spin"></i><div class="text-left"><p class="text-white font-bold">Analisando Qualidade...</p><p class="text-sm text-gray-400">Verificando completude.</p></div></div>
                         <div id="validation-result" class="hidden flex items-center gap-6 relative z-10 fade-in"><div class="relative w-24 h-24 flex items-center justify-center"><svg class="w-full h-full" viewBox="0 0 36 36"><path class="text-gray-700" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-width="4" /><path id="score-circle" class="text-yellow-500 transition-all duration-1000 ease-out" stroke-dasharray="0, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-width="4" /></svg><span id="score-text" class="absolute text-3xl font-bold text-white">0</span></div><div><h2 class="text-2xl font-bold text-white mb-1">Quality Score</h2><p id="score-message" class="text-gray-400 text-sm">Análise concluída.</p></div></div>
                     </div>
+
+                    <!-- Splitting Suggestions -->
                     <div id="splitting-section" class="hidden fade-in"><div class="bg-red-900/20 border border-red-900/50 rounded-lg p-5"><div class="flex items-center gap-2 mb-4 text-red-400"><i data-lucide="scissors" class="w-5 h-5"></i><h3 class="font-bold">História muito grande! Sugestões:</h3></div><div id="splitting-options-container" class="grid grid-cols-1 md:grid-cols-3 gap-4"></div></div></div>
+
+                    <!-- Download Button -->
+                    <button onclick="downloadFullHistory()" class="w-full bg-gray-700 hover:bg-gray-600 text-white font-medium py-4 px-4 rounded flex items-center justify-center gap-2 mt-8 mb-12 shadow-lg border border-gray-600 hover:border-gray-500 transition-all">
+                        <i data-lucide="download" class="w-5 h-5"></i> 
+                        <span>Baixar Documentação Completa (.txt)</span>
+                    </button>
                 </div>
             </main>
-            <aside class="w-[400px] border-l border-gray-800 bg-[#0f111a] flex flex-col shrink-0">
-                <div class="p-6 border-b border-gray-800"><h3 class="font-bold text-white text-lg">Backlog</h3></div><div id="backlog-container" class="flex-1 p-6 overflow-y-auto space-y-4"><div id="single-story-view" class="fade-in"><div class="text-xs font-bold text-gray-500 uppercase mb-2">História Principal</div><div class="card-bg border border-gray-700 border-l-4 border-l-blue-500 rounded p-4"><h4 class="font-bold text-gray-200 text-sm mb-1">US-01: <span id="sidebar-story-title"></span></h4><p class="text-xs text-gray-500">História consolidada.</p></div></div></div>
+
+            <!-- SIDEBAR STEP 4: HISTÓRIA COMPLETA (ATUALIZADA) -->
+            <aside class="w-[450px] border-l border-gray-800 bg-[#0f111a] flex flex-col shrink-0">
+                <div class="p-6 border-b border-gray-800"><h3 class="font-bold text-white text-lg">História Completa</h3><p class="text-xs text-gray-500 mt-1">Visão consolidada do produto</p></div>
+                <div id="full-story-sidebar" class="flex-1 p-6 overflow-y-auto space-y-6">
+                    <!-- Dynamic Content Injected Here by initPage4 -->
+                </div>
             </aside>
         </div>
     </div>
@@ -223,7 +221,7 @@
             lucide.createIcons();
         }
 
-        // STEP 2 - Rules & Chat
+        // STEP 2
         async function initPage2() {
             const container = document.getElementById('dynamic-questions-container');
             if (container.children.length > 0) return;
@@ -240,53 +238,36 @@
             } catch (e) { container.innerHTML = `<p class="text-red-500 text-center">Erro ao carregar perguntas.</p>`; }
         }
 
-        // Chat Logic
         function handleRulesChatEnter(e) { if(e.key === 'Enter') sendRulesChat(); }
         
         async function sendRulesChat() {
             const input = document.getElementById('chat-rules-input');
             const msg = input.value.trim();
             if(!msg) return;
-            
             const historyDiv = document.getElementById('rules-chat-history');
-            
-            // Add user message to UI
             historyDiv.innerHTML += `<div class="chat-bubble-user fade-in">${msg}</div>`;
             historyDiv.scrollTop = historyDiv.scrollHeight;
             input.value = '';
-            
-            // Add to state
             state.chatHistory.push({ role: "User", content: msg });
-
-            // Call API for reply
             try {
                 const result = await postAPI('/chat-rules', { context: state.storyText, message: msg });
-                
-                // Add AI reply to UI
                 historyDiv.innerHTML += `<div class="chat-bubble-ai fade-in">${result.reply}</div>`;
                 historyDiv.scrollTop = historyDiv.scrollHeight;
-                
                 state.chatHistory.push({ role: "AI", content: result.reply });
-            } catch (e) {
-                historyDiv.innerHTML += `<div class="chat-bubble-ai text-red-400">Erro de conexão.</div>`;
-            }
+            } catch (e) { historyDiv.innerHTML += `<div class="chat-bubble-ai text-red-400">Erro de conexão.</div>`; }
         }
 
         async function generateFinalRules() {
             const btn = document.getElementById('btn-finalize');
             const loading = document.getElementById('loading-state-2');
             const results = document.getElementById('results-container-2');
-            const empty = document.getElementById('empty-state-2');
             btn.innerHTML = `<i data-lucide="loader-2" class="w-4 h-4 animate-spin"></i> Consolidando...`;
-            loading.classList.remove('hidden'); results.classList.add('hidden'); empty.classList.add('hidden');
-
+            loading.classList.remove('hidden'); results.classList.add('hidden');
             const qaPairs = state.generatedQuestions.map((q, i) => {
                 const answer = document.getElementById(`q${i}`).value || "Não especificado";
                 return { question: q.label, answer: answer };
             });
-
             try {
-                // Send Chat History + QA Pairs
                 const rules = await postAPI('/consolidate-rules', { context: state.storyText, qaPairs: qaPairs, chatHistory: state.chatHistory });
                 state.rawRules = rules;
                 let html = '';
@@ -298,7 +279,6 @@
             lucide.createIcons();
         }
 
-        // STEP 3
         function initPage3() { document.getElementById('rules-count-badge').innerText = `${state.rawRules.length} regras`; }
         async function generateDocumentation() {
             const btn = document.getElementById('btn-docs');
@@ -317,9 +297,32 @@
             } catch (e) { loading.innerHTML = `<p class="text-red-500">Erro.</p>`; }
         }
 
-        // STEP 4
+        // STEP 4 - UPDATED SIDEBAR & EXPORT
         async function initPage4() {
-            document.getElementById('sidebar-story-title').innerText = state.action || "História";
+            // Update Sidebar with Full Content
+            const sidebar = document.getElementById('full-story-sidebar');
+            let sidebarContent = `
+                <div class="mb-6 fade-in">
+                    <h4 class="text-blue-400 font-bold text-xs uppercase mb-2 flex items-center gap-2"><i data-lucide="file-text" class="w-3 h-3"></i> User Story</h4>
+                    <div class="text-sm text-gray-300 bg-gray-800 p-3 rounded border border-gray-700">${state.storyText}</div>
+                </div>
+                <div class="mb-6 fade-in" style="animation-delay: 0.1s">
+                    <h4 class="text-green-400 font-bold text-xs uppercase mb-2 flex items-center gap-2"><i data-lucide="list-checks" class="w-3 h-3"></i> Regras de Negócio</h4>
+                    <ul class="text-sm text-gray-300 list-none space-y-2">
+                        ${state.rawRules.map(r => `<li class="bg-gray-800 p-2 rounded border border-gray-700"><span class="text-green-500 font-bold text-xs block mb-1">${r.id}</span>${r.text}</li>`).join('')}
+                    </ul>
+                </div>
+                <div class="mb-6 fade-in" style="animation-delay: 0.2s">
+                    <h4 class="text-purple-400 font-bold text-xs uppercase mb-2 flex items-center gap-2"><i data-lucide="code" class="w-3 h-3"></i> Gherkin</h4>
+                    <div class="space-y-3">
+                        ${state.scenarios.map(s => `<div class="bg-gray-800 p-2 rounded border border-gray-700"><span class="text-purple-400 font-bold text-xs block mb-1">Cenário para ${s.ruleId}</span><pre class="whitespace-pre-wrap font-mono text-xs text-gray-400">${s.gherkinText.replace(/<[^>]*>/g, '')}</pre></div>`).join('')}
+                    </div>
+                </div>
+            `;
+            sidebar.innerHTML = sidebarContent;
+            lucide.createIcons();
+
+            // Original Validation Logic
             document.getElementById('validation-loading').classList.remove('hidden');
             document.getElementById('validation-result').classList.add('hidden');
             document.getElementById('splitting-section').classList.add('hidden');
@@ -344,6 +347,65 @@
                     document.getElementById('splitting-section').classList.remove('hidden');
                 }
             } catch (e) {}
+        }
+
+        // NEW: DOWNLOAD TXT FUNCTION
+        function downloadFullHistory() {
+            // Strip HTML from story
+            const cleanStory = state.storyText.replace(/<[^>]*>/g, '').replace(/&nbsp;/g, ' ');
+            
+            // Build Question/Answer text
+            let qaText = "";
+            state.generatedQuestions.forEach((q, i) => {
+                const answer = document.getElementById(`q${i}`)?.value || "N/A";
+                qaText += `P: ${q.label}\nR: ${answer}\n\n`;
+            });
+
+            // Build Rules Text
+            let rulesText = state.rawRules.map(r => `${r.id}: ${r.text}`).join('\n');
+
+            // Build Gherkin Text
+            let gherkinText = state.scenarios.map(s => `CENÁRIO (${s.ruleId}):\n${s.gherkinText.replace(/<[^>]*>/g, '')}`).join('\n\n--------------------------------\n\n');
+
+            const content = `DOCUMENTAÇÃO STORY-4D
+==================================================
+Data: ${new Date().toLocaleString()}
+
+1. DEFINIÇÃO INICIAL
+--------------------------------------------------
+Ideia: ${state.idea}
+Usuário: ${state.user}
+Ação: ${state.action}
+Benefício: ${state.benefit}
+
+USER STORY REFINADA:
+${cleanStory}
+
+2. REFINAMENTO E REGRAS
+--------------------------------------------------
+${qaText}
+REGRAS DE NEGÓCIO CONSOLIDADAS:
+${rulesText}
+
+3. CRITÉRIOS DE ACEITE (GHERKIN)
+--------------------------------------------------
+${gherkinText}
+
+4. VALIDAÇÃO DE QUALIDADE
+--------------------------------------------------
+Score: ${state.validation?.score || 0}/100
+Feedback: ${state.validation?.message || "N/A"}
+`;
+
+            const blob = new Blob([content], { type: 'text/plain' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `Story-4D-Export-${Date.now()}.txt`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
         }
     </script>
 </body>
